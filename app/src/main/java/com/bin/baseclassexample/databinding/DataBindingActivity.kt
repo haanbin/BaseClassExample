@@ -1,25 +1,17 @@
 package com.bin.baseclassexample.databinding
 
-import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.bin.baseclassexample.R
+import com.bin.baseclassexample.base.BaseDataBindingActivity
 
-class DataBindingActivity : AppCompatActivity() {
+class DataBindingActivity :
+    BaseDataBindingActivity<ActivityDataBindingBinding, DataBindingViewModel>(R.layout.activity_data_binding) {
 
-    private lateinit var binding: ActivityDataBindingBinding
-    private val viewModel: DataBindingViewModel by viewModels()
+    override val viewModel: DataBindingViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_data_binding)
-        with(binding) {
-            vm = viewModel
-            listener = viewModel
-            lifecycleOwner = this@DataBindingActivity
-        }
+    override fun start() {
+        binding.listener = viewModel
 
         viewModel.itemClickEvent.observe(this, { event ->
             event.getContentIfNotHandled()?.let {
@@ -27,8 +19,4 @@ class DataBindingActivity : AppCompatActivity() {
             }
         })
     }
-}
-
-interface DataBindingAdapterListener {
-    fun onClickItem(string: String)
 }

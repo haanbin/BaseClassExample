@@ -2,10 +2,10 @@ package com.bin.baseclassexample.databinding
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.bin.baseclassexample.Event
+import com.bin.baseclassexample.base.BaseViewModel
 
-class DataBindingViewModel : ViewModel(), DataBindingAdapterListener {
+class DataBindingViewModel : BaseViewModel(), DataBindingAdapterListener {
 
     private val _items = MutableLiveData<List<String>>(arrayListOf("가", "나", "다", "라", "마", "바"))
     val items: LiveData<List<String>> = _items
@@ -20,4 +20,8 @@ class DataBindingViewModel : ViewModel(), DataBindingAdapterListener {
     override fun onClickItem(string: String) {
         _itemClickEvent.value = Event(string)
     }
+}
+
+interface DataBindingAdapterListener {
+    fun onClickItem(string: String)
 }
