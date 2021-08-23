@@ -6,15 +6,32 @@ import com.bin.baseclassexample.R
 import com.bin.baseclassexample.base.BaseViewBindingAdapter
 import com.bin.baseclassexample.databinding.ItemViewBindingBinding
 
-class ViewBindingAdapter :
+class ViewBindingAdapter(private val listener: ViewBindingAdapterListener) :
     BaseViewBindingAdapter<String, ItemViewBindingBinding>(R.layout.item_view_binding) {
 
-    override val bindView: (item: String, binding: ItemViewBindingBinding) -> Unit = ::bindViewHolder
+    override val bindViewHolder: (item: String, binding: ItemViewBindingBinding, adapterPosition: Int) -> Unit =
+        ::bindViewHolder
 
     override fun onCreateViewBinding(parent: ViewGroup, viewType: Int) =
         ItemViewBindingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-    private fun bindViewHolder(item: String, binding: ItemViewBindingBinding) {
+    private fun bindViewHolder(
+        item: String,
+        binding: ItemViewBindingBinding,
+        adapterPosition: Int
+    ) {
+        binding.tvPosition.text = adapterPosition.toString()
         binding.tvSimple.text = item
+
+        binding.tvPosition.setOnClickListener {
+            listener.onClickItem(adapterPosition.toString())
+        }
+        binding.tvSimple.setOnClickListener {
+            listener.onClickItem(item)
+        }
     }
+}
+
+interface ViewBindingAdapterListener {
+    fun onClickItem(string: String)
 }

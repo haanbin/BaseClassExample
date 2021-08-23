@@ -9,7 +9,7 @@ abstract class BaseViewBindingAdapter<ITEM, VB : ViewBinding>(
     @LayoutRes private val layoutResId: Int
 ) : RecyclerView.Adapter<BaseViewBindingAdapter.BaseViewBindingViewHolder<ITEM, VB>>() {
 
-    abstract val bindView: (item: ITEM, binding: VB) -> Unit
+    abstract val bindViewHolder: (item: ITEM, binding: VB, adapterPosition: Int) -> Unit
     abstract fun onCreateViewBinding(
         parent: ViewGroup,
         viewType: Int
@@ -22,12 +22,12 @@ abstract class BaseViewBindingAdapter<ITEM, VB : ViewBinding>(
         viewType: Int
     ): BaseViewBindingViewHolder<ITEM, VB> {
         return BaseViewBindingViewHolder(
-            onCreateViewBinding(parent, viewType), bindView
+            onCreateViewBinding(parent, viewType), bindViewHolder
         )
     }
 
     override fun onBindViewHolder(holder: BaseViewBindingViewHolder<ITEM, VB>, position: Int) {
-        holder.bindViewHolder(items[position])
+        holder.bindView(items[position])
     }
 
     override fun getItemCount(): Int = items.size
@@ -48,11 +48,11 @@ abstract class BaseViewBindingAdapter<ITEM, VB : ViewBinding>(
 
     class BaseViewBindingViewHolder<ITEM, VB : ViewBinding>(
         private val viewBinding: VB,
-        private val bindView: (item: ITEM, binding: VB) -> Unit
+        private val bindViewHolder: (item: ITEM, binding: VB, adapterPosition: Int) -> Unit
     ) : RecyclerView.ViewHolder(viewBinding.root) {
 
-        fun bindViewHolder(item: ITEM) {
-            bindView(item, viewBinding)
+        fun bindView(item: ITEM) {
+            bindViewHolder(item, viewBinding, adapterPosition)
         }
     }
 }
