@@ -12,6 +12,12 @@ class ViewBindingActivity :
         val adapter = ViewBindingAdapter(this)
         viewBinding.rvViewBinding.adapter = adapter
         adapter.replaceAll(arrayListOf("가", "나", "다", "라", "마", "바"))
+
+        /*val simpleAdapter = SimpleAdapter {
+            Toast.makeText(this, "Click $it", Toast.LENGTH_SHORT).show()
+        }
+        viewBinding.rvViewBinding.adapter = simpleAdapter
+        simpleAdapter.replaceAll(arrayListOf("가", "나", "다", "라", "마", "바"))*/
     }
 
     override fun onClickItem(string: String) {

@@ -7,7 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseViewBindingAdapter<ITEM, VB : ViewBinding>(
+abstract class BaseViewBindingAdapter<ITEM : Any, VB : ViewBinding>(
     @LayoutRes private val layoutResId: Int
 ) : RecyclerView.Adapter<BaseViewBindingAdapter.BaseViewBindingViewHolder<ITEM, VB>>() {
 
@@ -49,7 +49,7 @@ abstract class BaseViewBindingAdapter<ITEM, VB : ViewBinding>(
         notifyDataSetChanged()
     }
 
-    abstract class BaseViewBindingViewHolder<ITEM, VB : ViewBinding>(
+    abstract class BaseViewBindingViewHolder<ITEM: Any, VB : ViewBinding>(
         parent: ViewGroup,
         viewType: Int
     ) :
