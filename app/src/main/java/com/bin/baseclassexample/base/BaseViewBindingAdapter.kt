@@ -1,5 +1,7 @@
 package com.bin.baseclassexample.base
 
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
@@ -9,11 +11,8 @@ abstract class BaseViewBindingAdapter<ITEM, VB : ViewBinding>(
     @LayoutRes private val layoutResId: Int
 ) : RecyclerView.Adapter<BaseViewBindingAdapter.BaseViewBindingViewHolder<ITEM, VB>>() {
 
-    abstract val bindViewHolder: (item: ITEM, binding: VB, adapterPosition: Int) -> Unit
-    abstract fun onCreateViewBinding(
-        parent: ViewGroup,
-        viewType: Int
-    ): VB
+    abstract fun onCreateViewBinding(itemView: View): VB
+    abstract fun onBindViewHolder(item: ITEM, binding: VB, adapterPosition: Int)
 
     private val items = arrayListOf<ITEM>()
 
@@ -21,9 +20,13 @@ abstract class BaseViewBindingAdapter<ITEM, VB : ViewBinding>(
         parent: ViewGroup,
         viewType: Int
     ): BaseViewBindingViewHolder<ITEM, VB> {
-        return BaseViewBindingViewHolder(
-            onCreateViewBinding(parent, viewType), bindViewHolder
-        )
+        return object : BaseViewBindingViewHolder<ITEM, VB>(parent, viewType) {
+
+            override val viewBinding: VB = onCreateViewBinding(itemView)
+
+            override fun bindView(item: ITEM) =
+                onBindViewHolder(item, viewBinding, adapterPosition)
+        }
     }
 
     override fun onBindViewHolder(holder: BaseViewBindingViewHolder<ITEM, VB>, position: Int) {
@@ -46,13 +49,15 @@ abstract class BaseViewBindingAdapter<ITEM, VB : ViewBinding>(
         notifyDataSetChanged()
     }
 
-    class BaseViewBindingViewHolder<ITEM, VB : ViewBinding>(
-        private val viewBinding: VB,
-        private val bindViewHolder: (item: ITEM, binding: VB, adapterPosition: Int) -> Unit
-    ) : RecyclerView.ViewHolder(viewBinding.root) {
+    abstract class BaseViewBindingViewHolder<ITEM, VB : ViewBinding>(
+        parent: ViewGroup,
+        viewType: Int
+    ) :
+        RecyclerView.ViewHolder(
+            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        ) {
 
-        fun bindView(item: ITEM) {
-            bindViewHolder(item, viewBinding, adapterPosition)
-        }
+        abstract val viewBinding: VB
+        abstract fun bindView(item: ITEM)
     }
 }
