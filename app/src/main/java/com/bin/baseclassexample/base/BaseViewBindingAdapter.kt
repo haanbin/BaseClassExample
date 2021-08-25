@@ -49,12 +49,13 @@ abstract class BaseViewBindingAdapter<ITEM : Any, VB : ViewBinding>(
         notifyDataSetChanged()
     }
 
-    abstract class BaseViewBindingViewHolder<ITEM: Any, VB : ViewBinding>(
+    abstract class BaseViewBindingViewHolder<ITEM : Any, VB : ViewBinding>(
         parent: ViewGroup,
-        viewType: Int
+        @LayoutRes
+        layoutRes: Int
     ) :
         RecyclerView.ViewHolder(
-            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+            LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
         ) {
 
         abstract val viewBinding: VB
