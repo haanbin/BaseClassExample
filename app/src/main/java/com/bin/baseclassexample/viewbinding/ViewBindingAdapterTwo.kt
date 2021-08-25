@@ -43,6 +43,6 @@ class ViewBindingAdapterTwo(private val listener: ViewBindingAdapterTwoListener)
     }
 }
 
-interface ViewBindingAdapterTwoListener {
+fun interface ViewBindingAdapterTwoListener {
     fun onClickItem(string: String)
 }

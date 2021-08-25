@@ -18,12 +18,12 @@ class ViewBindingAdapter(private val listener: ViewBindingAdapterListener) :
         binding.tvPosition.text = adapterPosition.toString()
         binding.tvSimple.text = item
 
-        binding.tvSimple.setOnClickListener {
+        binding.root.setOnClickListener {
             listener.onClickItem(item)
         }
     }
 }
 
-interface ViewBindingAdapterListener {
+fun interface ViewBindingAdapterListener {
     fun onClickItem(string: String)
 }
