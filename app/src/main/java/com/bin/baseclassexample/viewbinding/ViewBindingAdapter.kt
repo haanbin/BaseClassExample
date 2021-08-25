@@ -10,7 +10,7 @@ class ViewBindingAdapter(private val listener: ViewBindingAdapterListener) :
 
     override fun onCreateViewBinding(itemView: View) = ItemViewBindingBinding.bind(itemView)
 
-    override fun onBindViewHolder(
+    override fun onBindView(
         item: String,
         binding: ItemViewBindingBinding,
         adapterPosition: Int

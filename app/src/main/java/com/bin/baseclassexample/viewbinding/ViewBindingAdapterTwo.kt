@@ -34,7 +34,7 @@ class ViewBindingAdapterTwo(private val listener: ViewBindingAdapterTwoListener)
             }
         }
 
-        override fun bindView(item: String) {
+        override fun onBindView(item: String) {
             this.item = item
 
             viewBinding.tvPosition.text = adapterPosition.toString()

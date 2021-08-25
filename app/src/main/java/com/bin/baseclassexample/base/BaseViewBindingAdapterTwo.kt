@@ -1,7 +1,6 @@
 package com.bin.baseclassexample.base
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +13,7 @@ abstract class BaseViewBindingAdapterTwo<ITEM : Any, VB : ViewBinding>(
     private val items = arrayListOf<ITEM>()
 
     override fun onBindViewHolder(holder: BaseViewBindingViewHolderTwo<ITEM, VB>, position: Int) {
-        holder.bindView(items[position])
+        holder.onBindView(items[position])
     }
 
     override fun getItemCount(): Int = items.size
@@ -43,6 +42,6 @@ abstract class BaseViewBindingAdapterTwo<ITEM : Any, VB : ViewBinding>(
         ) {
 
         abstract val viewBinding: VB
-        abstract fun bindView(item: ITEM)
+        abstract fun onBindView(item: ITEM)
     }
 }

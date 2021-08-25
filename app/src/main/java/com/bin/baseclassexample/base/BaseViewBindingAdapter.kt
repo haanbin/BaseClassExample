@@ -12,7 +12,7 @@ abstract class BaseViewBindingAdapter<ITEM : Any, VB : ViewBinding>(
 ) : RecyclerView.Adapter<BaseViewBindingAdapter.BaseViewBindingViewHolder<ITEM, VB>>() {
 
     abstract fun onCreateViewBinding(itemView: View): VB
-    abstract fun onBindViewHolder(item: ITEM, binding: VB, adapterPosition: Int)
+    abstract fun onBindView(item: ITEM, binding: VB, adapterPosition: Int)
 
     private val items = arrayListOf<ITEM>()
 
@@ -24,13 +24,13 @@ abstract class BaseViewBindingAdapter<ITEM : Any, VB : ViewBinding>(
 
             override val viewBinding: VB = onCreateViewBinding(itemView)
 
-            override fun bindView(item: ITEM) =
-                onBindViewHolder(item, viewBinding, adapterPosition)
+            override fun onBindView(item: ITEM) =
+                onBindView(item, viewBinding, adapterPosition)
         }
     }
 
     override fun onBindViewHolder(holder: BaseViewBindingViewHolder<ITEM, VB>, position: Int) {
-        holder.bindView(items[position])
+        holder.onBindView(items[position])
     }
 
     override fun getItemCount(): Int = items.size
@@ -59,6 +59,6 @@ abstract class BaseViewBindingAdapter<ITEM : Any, VB : ViewBinding>(
         ) {
 
         abstract val viewBinding: VB
-        abstract fun bindView(item: ITEM)
+        abstract fun onBindView(item: ITEM)
     }
 }
